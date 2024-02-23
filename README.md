@@ -19,4 +19,3 @@ Il progetto consiste in una pagina web con un campo di ricerca dove è possibile
 - Il sito deve essere accessibile nell’intranet scolastica tramite un hostname. È di conseguenza da configurare correttamente il DNS interno per la risoluzione dell’indirizzo.
 - Il sito deve essere facilmente visitabile da mobile, quindi va realizzato in modo responsive e testato sui più comuni dispositivi e risoluzioni.
 - Deve essere prevista una pagina di amministrazione del portale, protetto da login, in cui è possibile aggiornare l’orario scolastico, ad esempio all’inizio di un nuovo anno scolastico o in seguito a delle variazioni.
-
