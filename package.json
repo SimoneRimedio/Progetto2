@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.3"
+  },
+  "name": "progetto2",
+  "description": "Il progetto prevede la realizzazione di un web server destinato alla rete locale della scuola in cui implementare un servizio di localizzazione dei docenti in base all’orario scolastico.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "prisma": "^5.10.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimoneRimedio/Progetto2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimoneRimedio/Progetto2/issues"
+  },
+  "homepage": "https://github.com/SimoneRimedio/Progetto2#readme"
+}
