@@ -1,18 +1,15 @@
 import React from 'react';
-import { BsSearch } from 'react-icons/bs'; // Importa l'icona di ricerca da React Icons
+import './HomePage.css'
 
 function HomePage() {
   return (
-    <div className="container">
+    <>
       <input
         type="text"
         placeholder="Cerca..."
-        style={{ fontFamily: 'Poppins, sans-serif' }} // Aggiungi il font Poppins
+        className='searchingBar'
       />
-      <button>
-        <BsSearch />
-      </button>
-    </div>
+    </>
   );
 }
 
