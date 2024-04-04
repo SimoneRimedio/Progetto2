@@ -4,7 +4,7 @@ const dbUpdate = (res,req) =>{
 
     const file = req.body.file;
 
-    //inserire query prisma per aggiornare tuttoil db
+    //inserire query prisma per aggiornare tutto il db
 
 }
 
