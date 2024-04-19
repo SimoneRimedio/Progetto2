@@ -58,19 +58,26 @@ const Input = () => {
 };
 
 const UserProps = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false); // Stato per il tema scuro
+
   const userAction = {
     button: { iconOpen: <IconUser/> },
     optionsList: [
-    { icon: <IconLogin2 />, text: 'Login', isLink: '/login'  },
-    { icon: <IconSun />, text: 'Theme', extItem: <InpSwitch/> },
+      { icon: <IconLogin2 />, text: 'Login', isLink: '/login'  },
+      { icon: <IconSun />, text: 'Theme', extItem: <InpSwitch checked={isDarkMode} onChange={() => setIsDarkMode(!isDarkMode)} /> }, // Inserito lo stato del tema scuro nell'InpSwitch
     ],
   };
+
+  useEffect(() => {
+    // Aggiorna il tema globale in base allo stato del tema scuro
+    document.body.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <div className='relative flex justify-between items-center'>
       <DropDownMenu btnProps={userAction.button} elements={userAction.optionsList} />
     </div>
   );
-}
+};
 
 export default Navbar;

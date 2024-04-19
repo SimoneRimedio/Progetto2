@@ -3,6 +3,8 @@ import Homepage from "./pages/Homepage";
 import Test from './pages/LoginPage';
 import Page404 from "./pages/Page404";
 import SchedulingTable from "./pages/Table";
+import '../src/index.css'; // Importa i fogli di stile globali
+
 
 const App = () => {
   return (
