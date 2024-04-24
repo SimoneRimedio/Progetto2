@@ -4,8 +4,8 @@ import Table from '../components/Table/Schedule';
 
 const SchedulingTable = () => {
   const professore = {
-    nome: 'Marco',
-    cognome: 'Farina',
+    nome: 'Mark',
+    cognome: 'Zuckerberg',
     email: 'marco.farina@jcmaxwell.it',
     foto: '',
     materia: 'Informatica',
