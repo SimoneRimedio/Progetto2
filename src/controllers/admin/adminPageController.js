@@ -8,3 +8,4 @@ const dbUpdate = (res,req) =>{
 
 }
 
+module.exports = dbUpdate;
