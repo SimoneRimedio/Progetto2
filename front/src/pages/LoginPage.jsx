@@ -17,7 +17,7 @@ const Login = () => {
     <div className="flex items-center justify-center mt-20">
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" action=''>
           <InputField // Usa il componente InputField per i campi di input
             id="username"
             type="text"
