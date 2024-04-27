@@ -1,15 +1,16 @@
-
-const login = (res,req) => {
+const login = (req, res) => {
     const { username, password } = req.body;
+    const adminUsername = process.env.ADMIN_USERNAME;
+    const adminPassword = process.env.ADMIN_PASSWORD;
 
-    const admin_username = process.env.ADMIN_USERNAME;
-    const admin_password = process.env.ADMIN_PASSWORD;
-
-    if(username === admin_username && password === admin_password){
-        res.json({ "response": true });
+    if (!username || !password) {
+        return res.status(400).json({ "error": "Username and password are required." });
     }
-    else{
-        res.json({ "response": false });
+
+    if (username == adminUsername && password == adminPassword) {
+        return res.json({ "response": true });
+    } else {
+        return res.json({ "response": false });
     }
 };
 
