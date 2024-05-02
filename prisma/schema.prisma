@@ -23,5 +23,5 @@ model schedule {
   COEFF_      String? @map("COEFF.") @db.VarChar(5)
   GIORNO      String? @db.VarChar(9)
   O_INIZIO    String? @map("O.INIZIO") @db.VarChar(5)
-  ALUNNI      Int?
+  ALUNNI      String? @db.VarChar(2)
 }
