@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,4 +5,23 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model schedule {
+  NUMERO      Decimal @id @db.Decimal(5, 1)
+  DURATA      String? @db.VarChar(4)
+  FREQUENZA   String? @db.VarChar(1)
+  MAT_COD     String? @db.VarChar(8)
+  MAT_NOME    String? @db.VarChar(15)
+  DOC_COGN    String? @db.VarChar(6)
+  DOC_NOME    String? @db.VarChar(10)
+  CLASSE      String? @db.VarChar(96)
+  AULA        String? @db.VarChar(21)
+  PERIODICIT_ Int?    @map("PERIODICITÀ")
+  SPECIFICA   String? @db.VarChar(2)
+  CO_DOC_     String? @map("CO-DOC.") @db.VarChar(1)
+  COEFF_      String? @map("COEFF.") @db.VarChar(5)
+  GIORNO      String? @db.VarChar(9)
+  O_INIZIO    String? @map("O.INIZIO") @db.VarChar(5)
+  ALUNNI      Int?
 }

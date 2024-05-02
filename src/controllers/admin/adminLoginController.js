@@ -1,5 +1,6 @@
 const login = (req, res) => {
     const { username, password } = req.body;
+    console.log(username,password);
     const adminUsername = process.env.ADMIN_USERNAME;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
@@ -7,10 +8,10 @@ const login = (req, res) => {
         return res.status(400).json({ "error": "Username and password are required." });
     }
 
-    if (username == adminUsername && password == adminPassword) {
-        return res.json({ "response": true });
+    if (username === adminUsername && password === adminPassword) {
+        return res.status(200).json({ "authenticated": true, "message": "Login successful." });
     } else {
-        return res.json({ "response": false });
+        return res.status(401).json({ "authenticated": false, "error": "Invalid credentials." });
     }
 };
 
