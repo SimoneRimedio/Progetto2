@@ -1,6 +1,6 @@
-const Prisma = require("../../connection/connection");
+const prisma = require("../../connection/connection");
 
-const getData = (res,req) =>{
+const getData = (res, req) =>{
 
   
 }
