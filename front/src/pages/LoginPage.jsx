@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import InputField from '../components/Input/InputLogin'; // Importa il componente InputField
-
+import useFetch from '../hooks/useFetch';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Inserisci qui la logica per il login
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Esempio: effettua il login con una chiamata API o verifica le credenziali
+    useFetch('/admin/login', {username: username, password: password});
   };
 
   return (
