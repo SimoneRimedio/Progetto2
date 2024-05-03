@@ -1,8 +1,8 @@
 const Prisma = require("../../connection/connection");
 
-const getProfData = (res,req) =>{
+const getData = (res,req) =>{
 
-    //inserire la query per prendere i dati del prof cercato
+  
 }
 
-module.exports = getProfData;
+module.exports = getData;
