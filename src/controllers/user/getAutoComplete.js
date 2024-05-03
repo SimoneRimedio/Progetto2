@@ -1,10 +1,9 @@
 const prisma = require("../../connection/connection");
 const url = require("url");
 
-const getAutoComplete = (req, res) => {
-
-async function autoComplete(string) {
-    const schedules = await prisma.schedule.findMany({
+const getAutoComplete = async (req, res) => {
+  const autoComplete = async (string) => {
+    const distinctValues = await prisma.schedule.findMany({
       where: {
         OR: [
           {
@@ -29,23 +28,25 @@ async function autoComplete(string) {
         CLASSE: true,
         AULA: true,
       },
-      orderBy: {
-        DOC_COGN: 'asc',
-      },
+      distinct: ['DOC_COGN', 'CLASSE', 'AULA'], // Ottenere valori distinti
+      take: 10, 
     });
-    
-    console.log(schedules);
+
+    console.log(distinctValues);
+    return distinctValues;
+  };
+
+  const string = req.query.searchFor;
+
+  try {
+    const result = await autoComplete(string);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  } finally {
+    await prisma.$disconnect();
   }
-  
-  const urlParams = url.parse(req.body.url, true).query;
-  const string = urlParams.searchFor;
-  
- autoComplete(string)
-    .catch(e => {
-      throw e
-    })
-    .finally(async () => {
-      await prisma.$disconnect();
-    });
-}
+};
+
 module.exports = getAutoComplete;

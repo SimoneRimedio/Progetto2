@@ -5,6 +5,6 @@ const getAutoComplete = require("../../controllers/user/getAutoComplete");
 const userRouter = express.Router();
 
 userRouter.get("/schedule",getData);
-userRouter.get("/searchFor",getAutoComplete)
+userRouter.get("/autoComplete",getAutoComplete)
 
 module.exports = userRouter;
