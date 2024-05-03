@@ -6,7 +6,7 @@
 
 
 body {
-  @apply relative mx-auto w-[90rem] max-w-[90%] h-screen
+  @apply relative mx-auto w-[90rem] max-w-[90%] h-screen;
 }
 
 

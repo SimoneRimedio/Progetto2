@@ -29,14 +29,14 @@ const Docente = ({ nome, cognome, email, foto, materia, stato }) => {
   // Genera un colore casuale per la materia
   const coloreMateria = generaColoreCasuale();
 
-
-  return (
-    <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-8 cursor-pointer">
-      <img className="w-24 h-24 rounded-full mb-4" src={fotoProfessore} alt={`${nome} ${cognome}`} />
+ return (
+    <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-2 cursor-pointer">
+      <img className="w-16 h-16 rounded-full mb-4" src={fotoProfessore} alt={`${nome} ${cognome}`} />
       <div className="text-center">
-        <h2 className="text-lg font-semibold">{`${nome} ${cognome}`}</h2>
+        <h2 className="text-m font-semibold">{`${nome} ${cognome}`}</h2>
         <p className="text-sm font-medium" style={{ color: coloreMateria, textShadow: "1px 1px 1px rgba(0,0,0,0.5)" }}>{materia}</p> {/* Aggiunto contorno al testo */}
-        <p className="text-gray-500 text-sm">{email}</p>
+        <p className="text-gray-500 text-xs">{`${nome.toLowerCase()}.${cognome.toLowerCase()}@jcmaxwell.it`}</p>
+
         <br></br>
         <p className="text-sm" style={{ color: coloreStato }}>Stato: <strong> {stato}</strong></p> {/* Applica il colore del testo dello stato */}
       </div>
