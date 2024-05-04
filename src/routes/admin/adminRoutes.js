@@ -5,8 +5,7 @@ const upload = require("../../middlewares/upload");
 
 const adminRouter = express.Router();
 
-adminRouter.post("/login",login);
-adminRouter.put("/settings",upload.single('DBfile'),dbUpdate)
+adminRouter.post("/login", login);
+adminRouter.put("/settings", upload.single("DBfile"), dbUpdate);
 
 module.exports = adminRouter;
-
