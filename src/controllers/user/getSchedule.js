@@ -1,12 +1,11 @@
 const prisma = require("../../connection/connection");
-const days = require("../../public/days.json");
 
 const getSchedule = async (req, res) => {
   try {
     const findScheduleInfo = async (name, filter) => {
       return await prisma.schedule.findMany({
         where: {
-          [filter]: name
+          [filter]: name,
         },
         select: {
           O_INIZIO: true,
@@ -36,12 +35,12 @@ const getSchedule = async (req, res) => {
 
     const scheduleMatrix = {};
 
-    schedule.forEach(lesson => {
+    schedule.forEach((lesson) => {
       const giorno = lesson.GIORNO.toLowerCase();
       if (!scheduleMatrix[giorno]) {
         scheduleMatrix[giorno] = {};
       }
-      const ora = parseInt(lesson.O_INIZIO.split('h')[0], 10);
+      const ora = parseInt(lesson.O_INIZIO.split("h")[0], 10);
       const oraLabel = ora.toString().padStart(2, "0") + ":00";
 
       scheduleMatrix[giorno][oraLabel] = {

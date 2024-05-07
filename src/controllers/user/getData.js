@@ -8,7 +8,7 @@ const getData = async (req, res) => {
         where: {
           [filter]: name,
           GIORNO: day,
-          O_INIZIO: hour
+          O_INIZIO: hour,
         },
         select: {
           AULA: true,
@@ -26,7 +26,7 @@ const getData = async (req, res) => {
     const hour = `${date.getHours().toString().padStart(2, "0")}h00`;
     const day = days[date.getDay];
 
-    console.log(hour,day);
+    console.log(hour, day);
 
     let data;
 
