@@ -1,5 +1,6 @@
 const parseFileData = require("../../utils/parseCSV");
 const updateDatabase = require("../../utils/updateDB");
+const runPythonScript = require("../../utils/execPy");
 
 const dbUpdate = (req, res) => {
   const fileData = req.file.path;
@@ -8,7 +9,9 @@ const dbUpdate = (req, res) => {
     return res.status(400).send("File non fornito.");
   }
 
-  parseFileData(fileData)
+  const out = runPythonScript(fileData);
+
+  parseFileData(out)
     .then((parsedData) => {
       updateDatabase(parsedData);
       res.status(200).send("File caricato e elaborato con successo.");
