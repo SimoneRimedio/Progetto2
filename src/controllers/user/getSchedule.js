@@ -1,48 +1,63 @@
 const prisma = require("../../connection/connection");
+const days = require("../../public/days.json");
 
 const getSchedule = async (req, res) => {
-  async function getScheduleMatrix(name) {
-    try {
-      const schedule = await prisma.schedule.findMany({
+  try {
+    const findScheduleInfo = async (name, filter) => {
+      return await prisma.schedule.findMany({
         where: {
-          DOC_COGN: name,
+          [filter]: name
         },
         select: {
-          GIORNO: true,
           O_INIZIO: true,
+          GIORNO: true,
           AULA: true,
           CLASSE: true,
-          DOC_COGN: true,
+          MAT_NOME: true,
         },
       });
+    };
 
-      // Definisci la matrice in base al numero di ore e giorni di lezione
-      const matrix = Array.from({ length: 9 }, () => Array(7).fill(null));
+    const name = req.query.name;
+    const type = req.query.type;
 
-      // Popola la matrice con i dati recuperati dal database
-      schedule.forEach((lesson) => {
-        const giornoIndex = getGiornoIndex(lesson.GIORNO);
-        const oraIndex = getOraIndex(lesson.O_INIZIO);
-        if (giornoIndex !== -1 && oraIndex !== -1) {
-          matrix[oraIndex][giornoIndex] = {
-            AULA: lesson.AULA,
-            CLASSE: lesson.CLASSE,
-            DOC_COGN: lesson.DOC_COGN,
-          };
-        }
-      });
-
-      return matrix;
-    } catch (error) {
-      console.error("Errore durante il recupero delle lezioni:", error);
-      throw error;
+    let filter;
+    if (type === "0") {
+      filter = "DOC_COGN";
+    } else if (type === "1") {
+      filter = "CLASSE";
+    } else if (type === "2") {
+      filter = "AULA";
+    } else {
+      throw new Error("Tipo non valido.");
     }
-  }
 
-  const name = req.query.name;
-  const type = req.query.type;
-  const schedulesMatrix = await getScheduleMatrix(name);
-  res.json(schedulesMatrix);
+    const schedule = await findScheduleInfo(name, filter);
+
+    const scheduleMatrix = {};
+
+    schedule.forEach(lesson => {
+      const giorno = lesson.GIORNO.toLowerCase();
+      if (!scheduleMatrix[giorno]) {
+        scheduleMatrix[giorno] = {};
+      }
+      const ora = parseInt(lesson.O_INIZIO.split('h')[0], 10);
+      const oraLabel = ora.toString().padStart(2, "0") + ":00";
+
+      scheduleMatrix[giorno][oraLabel] = {
+        AULA: lesson.AULA,
+        CLASSE: lesson.CLASSE,
+        MAT_NOME: lesson.MAT_NOME,
+      };
+    });
+
+    res.json(scheduleMatrix);
+  } catch (error) {
+    console.error("Errore durante la ricerca:", error);
+    res.status(500).json({ error: error.message });
+  } finally {
+    await prisma.$disconnect();
+  }
 };
 
 module.exports = getSchedule;
