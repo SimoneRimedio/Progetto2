@@ -15,6 +15,7 @@ const getData = async (req, res) => {
           CLASSE: true,
           DOC_COGN: true,
           MAT_NOME: true,
+          DURATA: true,
         },
       });
     };

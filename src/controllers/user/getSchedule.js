@@ -1,4 +1,5 @@
 const prisma = require("../../connection/connection");
+const days = require("../../public/days.json");
 
 const getSchedule = async (req, res) => {
   try {
@@ -34,39 +35,32 @@ const getSchedule = async (req, res) => {
 
     const schedule = await findScheduleInfo(name, filter);
 
-    const scheduleArray = [];
+    const scheduleMatrix = {};
 
     schedule.forEach(lesson => {
       const giorno = lesson.GIORNO.toLowerCase();
+      if (!scheduleMatrix[giorno]) {
+        scheduleMatrix[giorno] = {};
+      }
       const ora = lesson.O_INIZIO;
-      const durata = parseInt(lesson.DURATA);
+      const durata = parseInt(lesson.DURATA); 
 
-      // Aggiungi la lezione corrente all'array
-      scheduleArray.push({
-        day: giorno,
-        hour: ora,
-        lesson: {
+      scheduleMatrix[giorno][ora] = {  // Aggiungi l'elemento nell'array per l'ora corrente
+        AULA: lesson.AULA,
+        CLASSE: lesson.CLASSE,
+        MAT_NOME: lesson.MAT_NOME,
+      };
+      // Se la durata è maggiore o uguale a due ore, aggiungi un elemento nell'array con l'ora corretta
+      if (durata >= 2) {
+        scheduleMatrix[giorno][ora+" x2"] = {
           AULA: lesson.AULA,
           CLASSE: lesson.CLASSE,
-          MAT_NOME: lesson.MAT_NOME
-        }
-      });
-
-      // Se la durata è maggiore o uguale a due ore, aggiungi un'altra lezione all'array
-      if (durata >= 2) {
-        scheduleArray.push({
-          day: giorno,
-          hour: ora + " x2",
-          lesson: {
-            AULA: lesson.AULA,
-            CLASSE: lesson.CLASSE,
-            MAT_NOME: lesson.MAT_NOME
-          }
-        });
+          MAT_NOME: lesson.MAT_NOME,
+        };
       }
     });
 
-    res.json(scheduleArray);
+    res.json(scheduleMatrix);
   } catch (error) {
     console.error("Errore durante la ricerca:", error);
     res.status(500).json({ error: error.message });
@@ -74,5 +68,6 @@ const getSchedule = async (req, res) => {
     await prisma.$disconnect();
   }
 };
+
 
 module.exports = getSchedule;
