@@ -3,31 +3,27 @@ const days = require("../../public/days.json");
 
 const getData = async (req, res) => {
   try {
-    const findLessonInfo = async (name, hour, day, filter) => {
-      return await prisma.schedule.findFirst({
+    const findLessonInfo = (name, hour, day, filter) => 
+      prisma.schedule.findFirst({
         where: {
           [filter]: name,
           GIORNO: day,
-          O_INIZIO: hour,
+          O_INIZIO: hour
         },
         select: {
           AULA: true,
           CLASSE: true,
           DOC_COGN: true,
           MAT_NOME: true,
-          DURATA: true,
         },
       });
-    };
 
     const name = req.query.name;
     const type = req.query.type;
 
     const date = new Date();
     const hour = `${date.getHours().toString().padStart(2, "0")}h00`;
-    const day = days[date.getDay()];
-
-    console.log(hour, day);
+    const day = days[date.getDay()]; 
 
     let data;
 
@@ -38,13 +34,13 @@ const getData = async (req, res) => {
     } else if (type === "2") {
       data = await findLessonInfo(name, hour, day, "AULA");
     } else {
-      throw new Error("Tipo non valido.");
+      throw new Error("Invalid type.");
     }
 
     res.json(data);
   } catch (error) {
-    console.error("Errore durante la ricerca:", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error while searching:", error.message);
+    throw error;
   } finally {
     await prisma.$disconnect();
   }
