@@ -1,5 +1,4 @@
 const prisma = require("../../connection/connection");
-const days = require("../../public/days.json");
 
 const getSchedule = async (req, res) => {
   try {
@@ -43,21 +42,12 @@ const getSchedule = async (req, res) => {
         scheduleMatrix[giorno] = {};
       }
       const ora = lesson.O_INIZIO;
-      const durata = parseInt(lesson.DURATA); 
 
-      scheduleMatrix[giorno][ora] = {  // Aggiungi l'elemento nell'array per l'ora corrente
+      scheduleMatrix[giorno][ora] = {  
         AULA: lesson.AULA,
         CLASSE: lesson.CLASSE,
         MAT_NOME: lesson.MAT_NOME,
       };
-      // Se la durata è maggiore o uguale a due ore, aggiungi un elemento nell'array con l'ora corretta
-      if (durata >= 2) {
-        scheduleMatrix[giorno][ora+" x2"] = {
-          AULA: lesson.AULA,
-          CLASSE: lesson.CLASSE,
-          MAT_NOME: lesson.MAT_NOME,
-        };
-      }
     });
 
     res.json(scheduleMatrix);
