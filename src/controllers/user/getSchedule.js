@@ -5,7 +5,7 @@ const getSchedule = async (req, res) => {
     const findScheduleInfo = async (name, filter) => {
       return await prisma.schedule.findMany({
         where: {
-          [filter]: name,
+          [filter]: name
         },
         select: {
           O_INIZIO: true,
@@ -13,6 +13,7 @@ const getSchedule = async (req, res) => {
           AULA: true,
           CLASSE: true,
           MAT_NOME: true,
+          DURATA: true,
         },
       });
     };
@@ -33,24 +34,39 @@ const getSchedule = async (req, res) => {
 
     const schedule = await findScheduleInfo(name, filter);
 
-    const scheduleMatrix = {};
+    const scheduleArray = [];
 
-    schedule.forEach((lesson) => {
+    schedule.forEach(lesson => {
       const giorno = lesson.GIORNO.toLowerCase();
-      if (!scheduleMatrix[giorno]) {
-        scheduleMatrix[giorno] = {};
-      }
-      const ora = parseInt(lesson.O_INIZIO.split("h")[0], 10);
-      const oraLabel = ora.toString().padStart(2, "0") + ":00";
+      const ora = lesson.O_INIZIO;
+      const durata = parseInt(lesson.DURATA);
 
-      scheduleMatrix[giorno][oraLabel] = {
-        AULA: lesson.AULA,
-        CLASSE: lesson.CLASSE,
-        MAT_NOME: lesson.MAT_NOME,
-      };
+      // Aggiungi la lezione corrente all'array
+      scheduleArray.push({
+        day: giorno,
+        hour: ora,
+        lesson: {
+          AULA: lesson.AULA,
+          CLASSE: lesson.CLASSE,
+          MAT_NOME: lesson.MAT_NOME
+        }
+      });
+
+      // Se la durata è maggiore o uguale a due ore, aggiungi un'altra lezione all'array
+      if (durata >= 2) {
+        scheduleArray.push({
+          day: giorno,
+          hour: ora + " x2",
+          lesson: {
+            AULA: lesson.AULA,
+            CLASSE: lesson.CLASSE,
+            MAT_NOME: lesson.MAT_NOME
+          }
+        });
+      }
     });
 
-    res.json(scheduleMatrix);
+    res.json(scheduleArray);
   } catch (error) {
     console.error("Errore durante la ricerca:", error);
     res.status(500).json({ error: error.message });

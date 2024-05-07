@@ -24,7 +24,7 @@ const getData = async (req, res) => {
 
     const date = new Date();
     const hour = `${date.getHours().toString().padStart(2, "0")}h00`;
-    const day = days[date.getDay];
+    const day = days[date.getDay()];
 
     console.log(hour, day);
 
