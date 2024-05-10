@@ -19,7 +19,7 @@ const getSchedule = async (req, res) => {
       });
     };
 
-    const name = req.query.name;
+    let name = req.query.name;
     if (name.includes("%20")) {
       name = name.replace(/%20/g, ' ');
     }
