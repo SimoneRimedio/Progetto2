@@ -14,6 +14,7 @@ const getSchedule = async (req, res) => {
           CLASSE: true,
           MAT_NOME: true,
           DURATA: true,
+          DOC_COGN: true,
         },
       });
     };
@@ -47,6 +48,7 @@ const getSchedule = async (req, res) => {
         AULA: lesson.AULA,
         CLASSE: lesson.CLASSE,
         MAT_NOME: lesson.MAT_NOME,
+        DOC_COGN: lesson.DOC_COGN,
       };
     });
 
