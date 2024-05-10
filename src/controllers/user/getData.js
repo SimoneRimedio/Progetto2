@@ -5,7 +5,7 @@ const getData = async (req, res) => {
   try {
     const findLessonInfo = (name, hour, day, filter) => 
       prisma.schedule.findFirst({
-        where: {
+        where: { 
           [filter]: name,
           GIORNO: day,
           O_INIZIO: hour
@@ -39,24 +39,27 @@ const getData = async (req, res) => {
       }
     }
     
-    const day = days[date.getDay()];
+    const day = days[date.getDay()-1];
     console.log(currentHour, currentMinutes, nearestHour);
 
     if (!allowedHours.includes(nearestHour)) {
       throw new Error("Invalid hour.");
     }
 
-    let data;
 
+    let filter;
     if (type === "0") {
-      data = await findLessonInfo(name, nearestHour, day, "DOC_COGN");
+      filter = "DOC_COGN";
     } else if (type === "1") {
-      data = await findLessonInfo(name, nearestHour, day, "CLASSE");
+      filter = "CLASSE";
     } else if (type === "2") {
-      data = await findLessonInfo(name, nearestHour, day, "AULA");
+      filter = "AULA";
     } else {
-      throw new Error("Invalid type.");
+      throw new Error("Tipo non valido.");
     }
+
+    console.log(name,nearestHour,day,filter);
+    const data = await findLessonInfo(name, nearestHour, day, filter);
 
     res.json(data);
   } catch (error) {
