@@ -9,7 +9,7 @@ const InactivityImage = ({ imageUrl }) => {
     const currentTime = Date.now();
     const inactivityTime = currentTime - lastActivity;
     // Aumenta gradualmente l'opacità in base al tempo di inattività
-    setOpacity(Math.min(inactivityTime / (1000 * 60 * 15), 1)); // Opacità massima dopo 5 minuti di inattività
+    setOpacity(Math.min(inactivityTime / (1000 * 60 * 1), 1)); // Opacità massima dopo 5 minuti di inattività
   };
 
   // Aggiorna lo stato del tempo trascorso a intervalli regolari

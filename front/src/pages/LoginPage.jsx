@@ -7,7 +7,6 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    useFetch('localhost:3000/admin/login', {username: username, password: password});
   };
 
   return (

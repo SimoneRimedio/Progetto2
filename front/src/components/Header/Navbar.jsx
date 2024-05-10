@@ -51,8 +51,6 @@ const Input = () => {
   useEffect(() => {
     const getAutocompleteOptions = async () => {
       const currentValueForSearch = getCurrentValueForSearch();
-      const autocompleteOptions = await useFetch({ url: `http://localhost:3000/autoComplete?searchFor=${currentValueForSearch}`});
-  
       setSearchingValue(autocompleteOptions.data);
     };
 
