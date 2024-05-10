@@ -20,6 +20,9 @@ const getSchedule = async (req, res) => {
     };
 
     const name = req.query.name;
+    if (name.includes("%20")) {
+      name = name.replace(/%20/g, ' ');
+    }
     const type = req.query.type;
 
     let filter;
