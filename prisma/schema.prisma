@@ -25,3 +25,8 @@ model schedule {
   O_INIZIO    String? @map("O.INIZIO") @db.VarChar(5)
   ALUNNI      String? @db.VarChar(2)
 }
+
+model admin {
+  username String @id @db.VarChar(255)
+  password String @db.VarChar(255)
+}

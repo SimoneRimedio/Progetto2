@@ -59,8 +59,6 @@ const getSchedule = async (req, res) => {
   } catch (error) {
     console.error("Errore durante la ricerca:", error);
     res.status(500).json({ error: error.message });
-  } finally {
-    await $disconnect();
   }
 };
 

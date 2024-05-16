@@ -1,7 +1,8 @@
-const login = (req, res) => {
+import prisma from "../";
+import crypto from "crypto";
+
+const login = async (req, res) => {
   const { username, password } = req.body;
-  const adminUsername = process.env.ADMIN_USERNAME;
-  const adminPassword = process.env.ADMIN_PASSWORD;
 
   if (!username || !password) {
     return res
@@ -9,7 +10,26 @@ const login = (req, res) => {
       .json({ error: "Username and password are required." });
   }
 
-  if (username === adminUsername && password === adminPassword) {
+  const user = await prisma.admins.findFirst({
+    where: {
+      username: username,
+    },
+  });
+
+  if (!user) {
+    return res
+    .json({ error: "User Not Found" });
+  }
+
+  const storedHashedPassword = user.password;
+  const userInputHashedPassword = crypto
+    .createHash("sha256")
+    .update(password)
+    .digest("hex");
+
+  const isAuthenticated = userInputHashedPassword === storedHashedPassword;
+
+  if (isAuthenticated) {
     return res
       .status(200)
       .json({ authenticated: true, message: "Login successful." });

@@ -76,8 +76,6 @@ const getData = async (req, res) => {
   } catch (error) {
     console.error("Error while searching:", error.message);
     throw error;
-  } finally {
-    await $disconnect();
   }
 };
 
