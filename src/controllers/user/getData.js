@@ -1,10 +1,10 @@
-const prisma = require("../../connection/connection");
-const days = require("../../public/days.json");
+import { schedule, $disconnect } from "../../connection/connection";
+import days from "../../public/days.json";
 
 const getData = async (req, res) => {
   try {
     const findLessonInfo = (name, hour, day, filter) => 
-      prisma.schedule.findFirst({
+      schedule.findFirst({
         where: { 
           [filter]: name,
           GIORNO: day,
@@ -66,8 +66,8 @@ const getData = async (req, res) => {
     console.error("Error while searching:", error.message);
     throw error;
   } finally {
-    await prisma.$disconnect();
+    await $disconnect();
   }
 };
 
-module.exports = getData;
+export default getData;

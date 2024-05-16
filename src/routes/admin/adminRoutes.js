@@ -1,11 +1,11 @@
-const express = require("express");
-const login = require("../../controllers/admin/adminLoginController");
-const dbUpdate = require("../../controllers/admin/adminPageController");
-const upload = require("../../middlewares/upload");
+import { Router } from "express";
+import login from "../../controllers/admin/adminLoginController";
+import dbUpdate from "../../controllers/admin/adminPageController";
+import { single } from "../../middlewares/upload";
 
-const adminRouter = express.Router();
+const adminRouter = Router();
 
 adminRouter.post("/login", login);
-adminRouter.put("/settings", upload.single("DBfile"), dbUpdate);
+adminRouter.put("/settings", single("DBfile"), dbUpdate);
 
-module.exports = adminRouter;
+export default adminRouter;

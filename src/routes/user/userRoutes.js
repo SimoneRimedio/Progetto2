@@ -1,10 +1,10 @@
-const express = require("express");
-const getData = require("../../controllers/user/getData");
-const getSchedule = require("../../controllers/user/getSchedule");
+import { Router } from "express";
+import getData from "../../controllers/user/getData";
+import getSchedule from "../../controllers/user/getSchedule";
 
-const userRouter = express.Router();
+const userRouter = Router();
 
 userRouter.get("/info", getData);
 userRouter.get("/schedule", getSchedule);
 
-module.exports = userRouter;
+export default userRouter;

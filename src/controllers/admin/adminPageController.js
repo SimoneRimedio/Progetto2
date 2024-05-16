@@ -1,5 +1,5 @@
-const splitAndParseRecords = require("../../utils/parseCSV");
-const updateDatabase = require("../../utils/updateDB");
+import splitAndParseRecords from "../../utils/parseCSV";
+import updateDatabase from "../../utils/updateDB";
 
 const dbUpdate = (req, res) => {
   const fileData = req.file.path;
@@ -22,5 +22,5 @@ const dbUpdate = (req, res) => {
         .status(500)
         .send("Si è verificato un errore durante l'analisi del file CSV.");
     });
-  }
-module.exports = dbUpdate;
+};
+export default dbUpdate;

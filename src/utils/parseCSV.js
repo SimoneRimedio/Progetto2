@@ -1,13 +1,12 @@
-const fs = require('fs');
-const csv = require('csv-parser');
-const { DateTime } = require('luxon');
+import { createReadStream } from 'fs';
+import csv from 'csv-parser';
+import { DateTime } from 'luxon';
 
 function splitAndParseRecords(inputFilePath) {
     return new Promise((resolve, reject) => {
         const rows = [];
 
-        // Leggi il file CSV di input
-        fs.createReadStream(inputFilePath)
+        createReadStream(inputFilePath)
             .pipe(csv({ separator: ';' }))
             .on('data', (row) => {
                 rows.push(row);
@@ -46,4 +45,4 @@ function splitAndParseRecords(inputFilePath) {
     });
 }
 
-module.exports = splitAndParseRecords;
+export default splitAndParseRecords;

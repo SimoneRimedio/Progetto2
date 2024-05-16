@@ -1,9 +1,9 @@
-const prisma = require("../../connection/connection");
+import { schedule as _schedule, $disconnect } from "../../connection/connection";
 
 const getSchedule = async (req, res) => {
   try {
     const findScheduleInfo = async (name, filter) => {
-      return await prisma.schedule.findMany({
+      return await _schedule.findMany({
         where: {
           [filter]: name
         },
@@ -60,9 +60,9 @@ const getSchedule = async (req, res) => {
     console.error("Errore durante la ricerca:", error);
     res.status(500).json({ error: error.message });
   } finally {
-    await prisma.$disconnect();
+    await $disconnect();
   }
 };
 
 
-module.exports = getSchedule;
+export default getSchedule;

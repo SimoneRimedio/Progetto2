@@ -1,4 +1,4 @@
-const login = (req, res) => {
+export default login = (req, res) => {
   const { username, password } = req.body;
   const adminUsername = process.env.ADMIN_USERNAME;
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -19,5 +19,3 @@ const login = (req, res) => {
       .json({ authenticated: false, error: "Invalid credentials." });
   }
 };
-
-module.exports = login;
