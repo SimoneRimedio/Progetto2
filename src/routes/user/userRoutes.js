@@ -1,10 +1,10 @@
 import { Router } from "express";
-import getData from "../../controllers/user/getData";
-import getSchedule from "../../controllers/user/getSchedule";
+import getData from "../../controllers/user/getData.js";
+import getSchedule from "../../controllers/user/getSchedule.js";
 
-const userRouter = Router();
+const UserRouter = Router();
 
-userRouter.get("/info", getData);
-userRouter.get("/schedule", getSchedule);
+UserRouter.get("/info", getData);
+UserRouter.get("/schedule", getSchedule);
 
-export default userRouter;
+export default UserRouter;

@@ -1,11 +1,11 @@
 import { Router } from "express";
-import login from "../../controllers/admin/adminLoginController";
-import dbUpdate from "../../controllers/admin/adminPageController";
-import { single } from "../../middlewares/upload";
+import login from "../../controllers/admin/adminLoginController.js";
+import dbUpdate from "../../controllers/admin/adminPageController.js";
+import upload from "../../middlewares/upload.js";
 
-const adminRouter = Router();
+const AdminRouter = Router();
 
-adminRouter.post("/login", login);
-adminRouter.put("/settings", single("DBfile"), dbUpdate);
+AdminRouter.post("/login", login);
+AdminRouter.put("/settings", upload.single("DBfile"), dbUpdate);
 
-export default adminRouter;
+export default AdminRouter;

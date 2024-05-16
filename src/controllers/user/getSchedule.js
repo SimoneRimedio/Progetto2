@@ -1,11 +1,11 @@
-import { schedule as _schedule, $disconnect } from "../../connection/connection";
+import prisma from "../../connection/connection.js";
 
 const getSchedule = async (req, res) => {
   try {
     const findScheduleInfo = async (name, filter) => {
-      return await _schedule.findMany({
+      return await prisma.schedule.findMany({
         where: {
-          [filter]: name
+          [filter]: name,
         },
         select: {
           O_INIZIO: true,
@@ -21,7 +21,7 @@ const getSchedule = async (req, res) => {
 
     let name = req.query.name;
     if (name.includes("%20")) {
-      name = name.replace(/%20/g, ' ');
+      name = name.replace(/%20/g, " ");
     }
     const type = req.query.type;
 
@@ -40,14 +40,14 @@ const getSchedule = async (req, res) => {
 
     const scheduleMatrix = {};
 
-    schedule.forEach(lesson => {
+    schedule.forEach((lesson) => {
       const giorno = lesson.GIORNO.toLowerCase();
       if (!scheduleMatrix[giorno]) {
         scheduleMatrix[giorno] = {};
       }
       const ora = lesson.O_INIZIO;
 
-      scheduleMatrix[giorno][ora] = {  
+      scheduleMatrix[giorno][ora] = {
         AULA: lesson.AULA,
         CLASSE: lesson.CLASSE,
         MAT_NOME: lesson.MAT_NOME,
@@ -63,6 +63,5 @@ const getSchedule = async (req, res) => {
     await $disconnect();
   }
 };
-
 
 export default getSchedule;

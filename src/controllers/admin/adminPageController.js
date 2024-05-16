@@ -1,5 +1,5 @@
-import splitAndParseRecords from "../../utils/parseCSV";
-import updateDatabase from "../../utils/updateDB";
+import splitAndParseRecords from "../../utils/parseCSV.js";
+import updateDatabase from "../../utils/updateDB.js";
 
 const dbUpdate = (req, res) => {
   const fileData = req.file.path;

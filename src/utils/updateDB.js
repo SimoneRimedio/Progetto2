@@ -1,4 +1,4 @@
-import prisma from "../connection/connection";
+import prisma from "../connection/connection.js";
 
 const updateDatabase = async function updateDatabase(parsedData) {
   try {
