@@ -1,4 +1,4 @@
-import prisma from "../";
+import prisma from "../../connection/connection.js";
 import crypto from "crypto";
 
 const login = async (req, res) => {
@@ -10,15 +10,14 @@ const login = async (req, res) => {
       .json({ error: "Username and password are required." });
   }
 
-  const user = await prisma.admins.findFirst({
+  const user = await prisma.admin.findFirst({
     where: {
       username: username,
     },
   });
 
   if (!user) {
-    return res
-    .json({ error: "User Not Found" });
+    return res.json({ error: "User Not Found" });
   }
 
   const storedHashedPassword = user.password;

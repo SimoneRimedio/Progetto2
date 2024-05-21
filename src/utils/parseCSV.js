@@ -2,6 +2,28 @@ import { createReadStream } from 'fs';
 import csv from 'csv-parser';
 import { DateTime } from 'luxon';
 
+const allowedHours = [
+    "08h00",
+    "08h55",
+    "10h00",
+    "10h55",
+    "12h00",
+    "12h55",
+    "14h10",
+    "15h05",
+];
+
+function adjustToAllowedHour(timeStr) {
+    const time = DateTime.fromFormat(timeStr, 'HH\'h\'mm');
+    for (let i = allowedHours.length - 1; i >= 0; i--) {
+        const allowedTime = DateTime.fromFormat(allowedHours[i], 'HH\'h\'mm');
+        if (time >= allowedTime) {
+            return allowedHours[i];
+        }
+    }
+    return allowedHours[0];
+}
+
 function splitAndParseRecords(inputFilePath) {
     return new Promise((resolve, reject) => {
         const rows = [];
@@ -27,8 +49,9 @@ function splitAndParseRecords(inputFilePath) {
                             const uniqueId = `${row['NUMERO']}.${i + 1}`;
                             newRow['NUMERO'] = uniqueId;
                             newRow['DURATA'] = '1h00';
-                            const newStartTime = startTime.plus({ minutes: i * 55 });
-                            newRow['O.INIZIO'] = newStartTime.toFormat('HH\'h\'mm'); // Modifica il formato dell'orario
+                            let newStartTime = startTime.plus({ minutes: i * 55 });
+                            const newStartTimeStr = newStartTime.toFormat('HH\'h\'mm'); 
+                            newRow['O.INIZIO'] = adjustToAllowedHour(newStartTimeStr);
                             splitRows.push(newRow);
                         }
                         return splitRows;

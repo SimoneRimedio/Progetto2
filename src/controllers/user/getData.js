@@ -1,5 +1,6 @@
 import prisma from "../../connection/connection.js";
-import days from "../../public/days.json" assert { type: "json" };
+
+const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
 
 const getData = async (req, res) => {
   try {
