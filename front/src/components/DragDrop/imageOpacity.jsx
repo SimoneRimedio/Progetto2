@@ -28,7 +28,7 @@ const InactivityImage = ({ imageUrl }) => {
 
   return (
     <div style={{ opacity, position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }} onMouseMove={handleActivity}>
-      <img src={'https://cdn.create.vista.com/api/media/small/54520059/stock-photo-man-standing-behind-frosted-glass'} alt="Inactivity Image" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+      <img src={'https://static.open.online/wp-content/uploads/2023/12/GOLF_20231224203656675_a0151136c6fe782db49d24262790ab44-1065x768.jpg'} alt="Inactivity Image" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
     </div>
   );
 };
