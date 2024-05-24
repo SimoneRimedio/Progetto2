@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const TabellaOrario = ({ data, info }) => {
   console.log('Info:', info);
@@ -44,6 +44,39 @@ const TabellaOrario = ({ data, info }) => {
     ris = "Nell'aula " + searchValue + " si trova la classe " + info.CLASSE;
   }
 
+  const [coloriMaterie, setColoriMaterie] = useState({});
+
+  useEffect(() => {
+    const generateColorMap = () => {
+      const colorMap = {};
+      const materie = new Set();
+
+      // Scansiona tutti i giorni e ore per ottenere tutte le materie
+      giorniSettimana.forEach((giorno) => {
+        oraInizio.forEach((ora) => {
+          const mat = data[giorno][ora]?.MAT_NOME;
+          if (mat) {
+            materie.add(mat);
+          }
+        });
+      });
+
+      // Assegna un colore casuale a ciascuna materia
+      materie.forEach((materia) => {
+        colorMap[materia] = getRandomColor();
+      });
+
+      return colorMap;
+    };
+
+    setColoriMaterie(generateColorMap());
+  }, [data, giorniSettimana, oraInizio]);
+
+  const getRandomColor = () => {
+    // Genera un colore casuale in formato esadecimale
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  };
+
   return (
     <div>
       <p>{ris}</p>
@@ -65,13 +98,13 @@ const TabellaOrario = ({ data, info }) => {
                 const doc = data[giorno][oraInizio[index]]?.DOC_COGN || '-';
                 const mat = data[giorno][oraInizio[index]]?.MAT_NOME || '-';
                 const classe = data[giorno][oraInizio[index]]?.CLASSE || '-';
+                const coloreMateria = coloriMaterie[mat] || 'white';
                 
                 return (
-                  <td key={dayIndex} className="border border-gray-500 py-2 px-2">
+                  <td key={dayIndex} className="border border-gray-500 py-2 px-2" style={{ backgroundColor: coloreMateria }}>
+                    <div className="mb-1"><strong>{mat}</strong>, {doc}</div>
                     <div className="mb-1">{aula.replace(/[<>]/g, '')}</div>
-                    <div className="mb-1">{classe.replace(/[<>]/g, '')}</div>
-                    <div className="mb-1">{mat}</div>
-                    <div>{doc}</div>
+                    <div className="mb-1"><italic>{classe.replace(/[<>]/g, '').replace(/ALT-REL|ALTERNATIVA/g, ' ')}</italic></div>
                   </td>
                 );
               })}

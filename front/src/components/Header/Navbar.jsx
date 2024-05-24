@@ -49,7 +49,7 @@ const Input = () => {
 
   useEffect(() => {
     const getAutocompleteOptions = async () => {
-      const autocompleteOptions = await useFetch({ url: `http://localhost:4000/searchFor=${dropDownMenuProps.optionsList[currentSearchOption].text}` });
+      const autocompleteOptions = await useFetch({ url: `http://localhost:3000/searchFor=${dropDownMenuProps.optionsList[currentSearchOption].text}` });
 
       setSearchingValue(autocompleteOptions.data);
     };
