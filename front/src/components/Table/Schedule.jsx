@@ -1,110 +1,63 @@
+import React from 'react';
 
-
-import React, { useState } from 'react';
-
-const OrarioTabella = () => {
-  // Array per rappresentare i giorni della settimana
-  const giorniSettimana = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
-
-  // Inizializzo uno state per tenere traccia delle materie e del giorno corrente
-  const [orario] = useState([
-    ['', '', '', '', ''], // Ogni elemento rappresenta una riga (orario per un giorno)
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', '']
-  ]);
-  const [giornoCorrente, setGiornoCorrente] = useState(0);
-
-  // Array degli orari di inizio
+const TabellaOrario = ({ data, info }) => {
+  console.log('Info:', info);
+  const giorniSettimana = Object.keys(data);
   const oraInizio = [
-    '8:00',
-    '8:55',
-    '10:00',
-    '10:55',
-    '12:00',
-    '12:55',
-    '14:10',
-    '15:05'
+    '08h00',
+    '08h55',
+    '10h00',
+    '10h55',
+    '12h00',
+    '12h55',
+    '14h10',
+    '15h05'
   ];
-
-  // Array degli orari di fine
   const oraFine = [
-    '8:55',
-    '9:50',
-    '10:55',
-    '11:50',
-    '12:55',
-    '13:50',
-    '15:05',
-    '16:00'
+    '08h55',
+    '09h50',
+    '10h55',
+    '11h50',
+    '12h55',
+    '13h50',
+    '15h05',
+    '16h00'
   ];
-
-  // Funzione per andare al giorno successivo
-  const goToNextDay = () => {
-    setGiornoCorrente((prevGiorno) => (prevGiorno + 1) % giorniSettimana.length);
-  };
-
-  // Funzione per andare al giorno precedente
-  const goToPreviousDay = () => {
-    setGiornoCorrente((prevGiorno) => (prevGiorno - 1 + giorniSettimana.length) % giorniSettimana.length);
-  };
 
   return (
     <div>
-      {/* Tabella per dispositivi mobili */}
-      <div className="sm:hidden"> {/* Nasconde la tabella su schermi di dimensioni pari o superiori a sm (640px) */}
-        <div>
-          <div className="flex justify-between mb-4">
-            <button onClick={goToPreviousDay} className="border border-gray-500 px-4 py-2 cursor-pointer">⭠</button>
-            <button onClick={goToNextDay} className="border border-gray-500 px-4 py-2 cursor-pointer">⭢</button>
-          </div>
-          <table className="table-auto border border-gray-500">
-            <thead>
-              <tr>
-                <th className="border border-gray-500 px-4 py-2">Ora</th>
-                <th className="border border-gray-500 px-4 py-2">{giorniSettimana[giornoCorrente]}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {oraInizio.map((orarioInizio, oraIndex) => (
-                <tr key={oraIndex}>
-                  <td className="border border-gray-500 px-4 py-2">{orarioInizio}<br />{oraFine[oraIndex]}</td>
-                  <td className="border border-gray-500 px-4 py-2 cursor-pointer">{orario[giornoCorrente][oraIndex]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Tabella per dispositivi di dimensioni superiori a sm (640px) */}
-      <div className="hidden sm:block">
-        <table className="table-auto border border-gray-500"> {/* Rimuovo mx-auto per centrare la tabella */}
-          <thead>
-            <tr>
-              <th className="border border-gray-500 px-4 py-2">Ora</th>
-              {giorniSettimana.map((giorno, index) => (
-                <th key={index} className="border border-gray-500 px-4 py-2">{giorno}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {oraInizio.map((orarioInizio, oraIndex) => (
-              <tr key={oraIndex}>
-                <td className="border border-gray-500 px-4 py-2">{orarioInizio}<br></br>{oraFine[oraIndex]}</td>
-                {orario.map((materia, giornoIndex) => (
-                  <td key={giornoIndex} className="border border-gray-500 px-4 py-2 cursor-pointer w-48"> {/* Aggiungi la classe w-48 per aumentare la larghezza */}
-                    {materia}
-                  </td>
-                ))}
-              </tr>
+      <p>La classe {info.CLASSE} si trova in {info.AULA}</p>
+      <table className="border border-gray-500 mt-4">
+        <thead>
+          <tr>
+            <th className="border border-gray-500"></th>
+            {giorniSettimana.map((giorno, index) => (
+              <th key={index} className="border border-gray-500">{giorno}</th>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          {oraInizio.map((ora, index) => (
+            <tr key={index}>
+              <td className="border border-gray-500 py-2 px-2">{`${ora} \n ${oraFine[index]}`}</td>
+              {giorniSettimana.map((giorno, dayIndex) => {
+                const aula = data[giorno][oraInizio[index]]?.AULA || '-'; 
+                const doc = data[giorno][oraInizio[index]]?.DOC_COGN || '-'; 
+                const mat = data[giorno][oraInizio[index]]?.MAT_NOME || '-'; 
+                return (
+                  <td key={dayIndex} className="border border-gray-500 py-2 px-2">
+                    <div className="mb-1">{aula}</div>
+                    <div className="mb-1">{mat}</div>
+                    <div>{doc}</div>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default OrarioTabella;
+export default TabellaOrario;
