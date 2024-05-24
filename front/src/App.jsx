@@ -7,6 +7,8 @@ import Login from "./pages/LoginPage";
 import Admin from "./pages/Admindashboard";
 import '../src/index.css'; // Importa i fogli di stile globali
 
+//PORT = 3000
+//DATABASE_URL = "mysql://root@localhost:3306/progetto2"
 
 const App = () => {
   return (
