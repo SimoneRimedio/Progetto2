@@ -50,7 +50,9 @@ const TabellaOrario = ({ data, info }) => {
 
   return (
     <div>
-      <p>{ris}</p>
+    <p class="bg-white text-gray-800 text-lg font-medium p-4 rounded-md shadow-sm text-center mx-4 w-auto">
+        {ris}
+    </p>
       <table className="border border-gray-500 mt-4">
         <thead>
           <tr>
@@ -72,7 +74,7 @@ const TabellaOrario = ({ data, info }) => {
                 const coloreMateria = coloriMaterie[mat] || 'white';
                 
                 return (
-                  <td key={dayIndex} className="border border-gray-500 py-2 px-2" style={{ backgroundColor: coloreMateria }}>
+                  <td key={dayIndex} className="border border-gray-500 py-2 px-2">
                     <div className="mb-1"><strong>{mat}</strong> {doc}</div>
                     <div className="mb-1">{aula.replace(/[<>]/g, '')}</div>
                     <div className="mb-1"><italic>{classe.replace(/[<>]/g, '').replace(/ALT-REL|ALTERNATIVA/g, ' ')}</italic></div>

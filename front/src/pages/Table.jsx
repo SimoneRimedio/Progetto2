@@ -17,7 +17,6 @@ const SchedulingTable = () => {
 
   // Ottenere il valore del parametro 'search'
   let searchValue = urlParams.get('search');
-  console.log('Valore del parametro "search":', searchValue);
 
   // Ottenere il valore del parametro 'option'
   let optionValue = urlParams.get('option');
@@ -29,8 +28,6 @@ const SchedulingTable = () => {
   } else if (optionValue == "Aule") {
     optionValue = 2;
   }
-
-  console.log('Valore del parametro "option":', optionValue);
 
 
   useEffect(() => {
