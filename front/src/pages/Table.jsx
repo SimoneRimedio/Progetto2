@@ -7,9 +7,9 @@ import { useParams } from 'react-router-dom';
 
 const SchedulingTable = () => {
   // Definisci uno stato per memorizzare i dati ottenuti dalla chiamata API
-  const [scheduleData, setScheduleData] = useState(null);
-  const [infoData, setInfoData] = useState(null);
-  const { inputValue } = useParams();
+  let [scheduleData, setScheduleData] = useState(null);
+  let [infoData, setInfoData] = useState(null);
+  let { inputValue } = useParams();
 
 
   let queryString = window.location.search;
@@ -34,10 +34,10 @@ const SchedulingTable = () => {
 
 
   useEffect(() => {
-    const fetchData = async () => {
+    let fetchData = async () => {
       try {
-        const scheduleRes = await useFetch({ url: `http://localhost:3000/schedule?name=${searchValue}&type=${optionValue}` });
-        const infoRes = await useFetch({ url: `http://localhost:3000/info?name=${searchValue}&type=${optionValue}` });
+        let scheduleRes = await useFetch({ url: `http://localhost:3000/schedule?name=${searchValue}&type=${optionValue}` });
+        let infoRes = await useFetch({ url: `http://localhost:3000/info?name=${searchValue}&type=${optionValue}` });
         // Aggiorna lo stato con i dati ottenuti dalla chiamata API
         setScheduleData(scheduleRes.data);
         setInfoData(infoRes.data);

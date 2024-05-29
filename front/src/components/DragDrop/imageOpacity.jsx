@@ -28,7 +28,7 @@ const InactivityImage = ({ imageUrl }) => {
 
   return (
     <div style={{ opacity, position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }} onMouseMove={handleActivity}>
-      <img src={'https://static.open.online/wp-content/uploads/2023/12/GOLF_20231224203656675_a0151136c6fe782db49d24262790ab44-1065x768.jpg'} alt="Inactivity Image" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+      <img src={'https://i.pinimg.com/1200x/84/2a/d6/842ad68b315b0f586c30b465221da609.jpg'} alt="https://images.pexels.com/photos/4466468/pexels-photo-4466468.jpeg?cs=srgb&dl=pexels-karolina-grabowska-4466468.jpg&fm=jpg" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
     </div>
   );
 };
