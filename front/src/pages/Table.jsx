@@ -47,7 +47,7 @@ const SchedulingTable = () => {
     };
 
     fetchData(); // Esegui la funzione di fetch dei dati quando il componente monta
-  }, [inputValue]); // Aggiungi inputValue come dipendenza affinché l'effetto venga eseguito quando il parametro cambia
+  }); // Aggiungi inputValue come dipendenza affinché l'effetto venga eseguito quando il parametro cambia
 
   return (
     <div>
