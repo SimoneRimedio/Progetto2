@@ -29,13 +29,14 @@ const login = async (req, res) => {
   const isAuthenticated = userInputHashedPassword === storedHashedPassword;
 
   if (isAuthenticated) {
-    return res
-      .status(200)
-      .json({ authenticated: true, message: "Login successful." });
+    const token = jwt.sign({ username }, process.env.SECRET_KEY, {
+      expiresIn: "1h",
+    });
+    return res.status(200).json({ token });
   } else {
     return res
       .status(401)
-      .json({ authenticated: false, error: "Invalid credentials." });
+      .json({ error: "Credenziali di accesso non valide." });
   }
 };
 
