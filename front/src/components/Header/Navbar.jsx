@@ -47,16 +47,6 @@ const Input = () => {
     ]
   };
 
-  useEffect(() => {
-    const getAutocompleteOptions = async () => {
-      const autocompleteOptions = await useFetch({ url: `http://localhost:3000/searchFor=${dropDownMenuProps.optionsList[currentSearchOption].text}` });
-
-      setSearchingValue(autocompleteOptions.data);
-    };
-
-    getAutocompleteOptions();
-  }, [currentSearchOption]);
-
   const handleSearch = () => {
     const selectedOption = dropDownMenuProps.optionsList[currentSearchOption];
     navigate(`/table?search=${inputValue}&option=${selectedOption.text}`);
