@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
 const TabellaOrario = ({ data, info }) => {
-  console.log('Info:', info);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [giornoCorrente, setGiornoCorrente] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const giorniSettimana = Object.keys(data);
   const oraInizio = [
     '08h00',
@@ -28,13 +40,8 @@ const TabellaOrario = ({ data, info }) => {
   let queryString = window.location.search;
   let urlParams = new URLSearchParams(queryString);
 
-  // Ottenere il valore del parametro 'search'
   let searchValue = urlParams.get('search');
-  console.log('Valore del parametro "search":', searchValue);
-
-  // Ottenere il valore del parametro 'option'
   let optionValue = urlParams.get('option');
-  console.log('Valore del parametro "option":', optionValue);
 
   if (info.AULA == null || info.CLASSE == null) {
     if (optionValue === "Docenti") {
@@ -56,46 +63,89 @@ const TabellaOrario = ({ data, info }) => {
 
   const [coloriMaterie] = useState({});
 
+  const handlePreviousDay = () => {
+    setGiornoCorrente((prevGiorno) => (prevGiorno > 0 ? prevGiorno - 1 : giorniSettimana.length - 1));
+  };
+
+  const handleNextDay = () => {
+    setGiornoCorrente((prevGiorno) => (prevGiorno < giorniSettimana.length - 1 ? prevGiorno + 1 : 0));
+  };
+
+  const giorno = giorniSettimana[giornoCorrente];
+
   return (
     <div className="p-2">
       <p className="bg-white text-gray-800 text-lg font-medium p-4 rounded-md shadow-sm text-center mx-2 w-auto">
         {ris}
       </p>
-      <div className="overflow-x-auto mt-4">
-        <table className="w-full min-w-max bg-white border-collapse">
-          <thead>
-            <tr>
-              <th className="border border-gray-500 px-4 py-2"></th>
-              {giorniSettimana.map((giorno, index) => (
-                <th key={index} className="border border-gray-500 px-4 py-2">{giorno}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {oraInizio.map((ora, index) => (
-              <tr key={index}>
-                <td className="border border-gray-500 px-4 py-2 whitespace-pre">{`${ora}\n${oraFine[index]}`}</td>
-                {giorniSettimana.map((giorno, dayIndex) => {
-                  const aula = data[giorno][oraInizio[index]]?.AULA || '';
-                  const doc = data[giorno][oraInizio[index]]?.DOC_COGN || '';
-                  const mat = data[giorno][oraInizio[index]]?.MAT_NOME || '';
-                  const classe = data[giorno][oraInizio[index]]?.CLASSE || '';
-                  const coloreMateria = coloriMaterie[mat] || 'white';
-
-                  return (
-                    <td key={dayIndex} className="border border-gray-500 px-4 py-2" style={{ backgroundColor: coloreMateria }}>
-                      <div className="mb-1 font-bold">{mat}</div>
-                      <div className="mb-1">{doc}</div>
-                      <div className="mb-1">{aula.replace(/[<>]/g, '')}</div>
-                      <div className="italic">{classe.replace(/[<>]/g, '').replace(/ALT-REL|ALTERNATIVA/g, ' ')}</div>
+      {isMobile ? (
+        <div>
+          <div className="flex justify-between items-center mt-4">
+            <button onClick={handlePreviousDay} className="bg-blue-500 text-white px-4 py-2 rounded">←</button>
+            <h2 className="text-xl font-bold">{giorno}</h2>
+            <button onClick={handleNextDay} className="bg-blue-500 text-white px-4 py-2 rounded">→</button>
+          </div>
+          <div className="overflow-x-auto mt-4">
+            <table className="w-full min-w-max bg-white border-collapse">
+              <thead>
+                <tr>
+                  <th className="border border-gray-500 px-4 py-2">Orario</th>
+                  <th className="border border-gray-500 px-4 py-2">{giorno}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {oraInizio.map((ora, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-500 px-4 py-2 whitespace-pre">{`${ora}\n${oraFine[index]}`}</td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      <div className="mb-1 font-bold">{data[giorno][oraInizio[index]]?.MAT_NOME || ''}</div>
+                      <div className="mb-1">{data[giorno][oraInizio[index]]?.DOC_COGN || ''}</div>
+                      <div className="mb-1">{data[giorno][oraInizio[index]]?.AULA?.replace(/[<>]/g, '') || ''}</div>
+                      <div className="italic">{data[giorno][oraInizio[index]]?.CLASSE?.replace(/[<>]/g, '').replace(/ALT-REL|ALTERNATIVA/g, ' ') || ''}</div>
                     </td>
-                  );
-                })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div className="overflow-x-auto mt-4">
+          <table className="w-full min-w-max bg-white border-collapse">
+            <thead>
+              <tr>
+                <th className="border border-gray-500 px-4 py-2"></th>
+                {giorniSettimana.map((giorno, index) => (
+                  <th key={index} className="border border-gray-500 px-4 py-2">{giorno}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {oraInizio.map((ora, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-500 px-4 py-2 whitespace-pre">{`${ora}\n${oraFine[index]}`}</td>
+                  {giorniSettimana.map((giorno, dayIndex) => {
+                    const aula = data[giorno][oraInizio[index]]?.AULA || '';
+                    const doc = data[giorno][oraInizio[index]]?.DOC_COGN || '';
+                    const mat = data[giorno][oraInizio[index]]?.MAT_NOME || '';
+                    const classe = data[giorno][oraInizio[index]]?.CLASSE || '';
+                    const coloreMateria = coloriMaterie[mat] || 'white';
+
+                    return (
+                      <td key={dayIndex} className="border border-gray-500 px-4 py-2" style={{ backgroundColor: coloreMateria }}>
+                        <div className="mb-1 font-bold">{mat}</div>
+                        <div className="mb-1">{doc}</div>
+                        <div className="mb-1">{aula.replace(/[<>]/g, '')}</div>
+                        <div className="italic">{classe.replace(/[<>]/g, '').replace(/ALT-REL|ALTERNATIVA/g, ' ')}</div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
