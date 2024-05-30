@@ -36,23 +36,33 @@ const TabellaOrario = ({ data, info }) => {
   let optionValue = urlParams.get('option');
   console.log('Valore del parametro "option":', optionValue);
 
-  if (optionValue === "Docenti") {
-    ris = "Il docente " + searchValue + " si trova in " + info.AULA;
-  } else if (optionValue === "Classi") {
-    ris = "La classe " + searchValue + " si trova in " + info.AULA;
-  } else if (optionValue === "Aule") {
-    ris = "Nell'aula " + searchValue + " si trova la classe " + info.CLASSE;
+  if (info.AULA == null || info.CLASSE == null) {
+    if (optionValue === "Docenti") {
+      ris = "Il docente " + searchValue + " è inattivo";
+    } else if (optionValue === "Classi") {
+      ris = "La classe " + searchValue + " è inattiva";
+    } else if (optionValue === "Aule") {
+      ris = "Nell'aula " + searchValue + " non c'è nessuno";
+    }
+  } else {
+    if (optionValue === "Docenti") {
+      ris = "Il docente " + searchValue + " si trova in " + info.AULA;
+    } else if (optionValue === "Classi") {
+      ris = "La classe " + searchValue + " si trova in " + info.AULA;
+    } else if (optionValue === "Aule") {
+      ris = "Nell'aula " + searchValue + " si trova la classe " + info.CLASSE;
+    }
   }
 
   const [coloriMaterie] = useState({});
 
   return (
-    <div className="p-4">
-      <p className="bg-white text-gray-800 text-lg font-medium p-4 rounded-md shadow-sm text-center mx-4 w-auto">
+    <div className="p-2">
+      <p className="bg-white text-gray-800 text-lg font-medium p-4 rounded-md shadow-sm text-center mx-2 w-auto">
         {ris}
       </p>
       <div className="overflow-x-auto mt-4">
-        <table className="min-w-full bg-white border-collapse">
+        <table className="w-full min-w-max bg-white border-collapse">
           <thead>
             <tr>
               <th className="border border-gray-500 px-4 py-2"></th>
