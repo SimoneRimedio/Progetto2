@@ -1,5 +1,6 @@
 import prisma from "../../connection/connection.js";
 import crypto from "crypto";
+import jwt from 'jsonwebtoken';
 
 const login = async (req, res) => {
   const { username, password } = req.body;
