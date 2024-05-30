@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Header/Navbar';
 import Table from '../components/Table/Schedule';
+import Card from '../components/Card/Card';
 import ImageOpacity from '../components/DragDrop/imageOpacity';
 import useFetch from '../hooks/useFetch';
 
@@ -57,6 +58,7 @@ const SchedulingTable = () => {
             {/* Renderizza il componente Table solo se i dati sono disponibili */}
             {scheduleData && <Table data={scheduleData} info={infoData} />}
           </div>
+          {<Card info={infoData} />}
         </div>
       </div>
 

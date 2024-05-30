@@ -4,6 +4,7 @@ const TabellaOrario = ({ data, info }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [giornoCorrente, setGiornoCorrente] = useState(0);
 
+  console.log(info);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);

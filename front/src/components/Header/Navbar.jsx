@@ -34,7 +34,6 @@ const Logo = () => {
 const Input = () => {
   const navigate = useNavigate();
   const [currentSearchOption, setCurrentSearchOption] = useState(0);
-  const [searchingValue, setSearchingValue] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Aggiunto stato per gestire l'apertura e la chiusura del menu
 
@@ -46,16 +45,6 @@ const Input = () => {
       { icon: <IconDoor />, text: 'Aule', onClick: () => setCurrentSearchOption(2), className: currentSearchOption === 2 ? 'focus:bg-blue-500 text-white' : '' },
     ]
   };
-
-  useEffect(() => {
-    const getAutocompleteOptions = async () => {
-      const autocompleteOptions = await useFetch({ url: `http://localhost:3000/searchFor=${dropDownMenuProps.optionsList[currentSearchOption].text}` });
-
-      setSearchingValue(autocompleteOptions.data);
-    };
-
-    getAutocompleteOptions();
-  }, [currentSearchOption]);
 
   const handleSearch = () => {
     const selectedOption = dropDownMenuProps.optionsList[currentSearchOption];

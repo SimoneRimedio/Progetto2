@@ -1,17 +1,13 @@
 import React from 'react';
 
-const Docente = ({ nome, cognome, email, foto, materia, stato }) => {
+const Docente = ({info}) => {
   // Funzione per generare il colore del testo dello stato in base allo stato fornito
-  const generaColoreStato = (stato) => {
+  const generaColoreStato = (info) => {
     switch (stato) {
-      case 'attivo':
-        return 'green'; // Verde per lo stato attivo
-      case 'inattivo':
-        return 'orange'; // Arancione per lo stato inattivo
-      case 'fuori orario':
-        return 'red'; // Rosso per lo stato fuori orario
       default:
-        return 'black'; // Nero per qualsiasi altro stato
+        return 'green'; // Verde per lo stato attivo
+      case null:
+        return 'orange'; // Arancione per lo stato inattivo
     }
   };
 
@@ -33,7 +29,7 @@ const Docente = ({ nome, cognome, email, foto, materia, stato }) => {
     <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-2 cursor-pointer">
       <img className="w-16 h-16 rounded-full mb-4" src={fotoProfessore} alt={`${nome} ${cognome}`} />
       <div className="text-center">
-        <h2 className="text-m font-semibold">{`${nome} ${cognome}`}</h2>
+        <h2 className="text-m font-semibold">{`${info.DOC_COGN}`}</h2>
         <p className="text-sm font-medium" style={{ color: coloreMateria, textShadow: "1px 1px 1px rgba(0,0,0,0.5)" }}>{materia}</p> {/* Aggiunto contorno al testo */}
         <p className="text-gray-500 text-xs">{`${nome.toLowerCase()}.${cognome.toLowerCase()}@jcmaxwell.it`}</p>
 
