@@ -3,14 +3,11 @@ import Navbar from '../components/Header/Navbar';
 import Table from '../components/Table/Schedule';
 import ImageOpacity from '../components/DragDrop/imageOpacity';
 import useFetch from '../hooks/useFetch';
-import { useParams } from 'react-router-dom';
 
 const SchedulingTable = () => {
   // Definisci uno stato per memorizzare i dati ottenuti dalla chiamata API
   let [scheduleData, setScheduleData] = useState(null);
   let [infoData, setInfoData] = useState(null);
-  let { inputValue } = useParams();
-
 
   let queryString = window.location.search;
   let urlParams = new URLSearchParams(queryString);
@@ -35,9 +32,14 @@ const SchedulingTable = () => {
       try {
         let scheduleRes = await useFetch({ url: `http://localhost:3000/schedule?name=${searchValue}&type=${optionValue}` });
         let infoRes = await useFetch({ url: `http://localhost:3000/info?name=${searchValue}&type=${optionValue}` });
+        if (infoRes.data == null) {
+          setInfoData('null');
+        } else {
+          setInfoData(infoRes.data);
+        }
         // Aggiorna lo stato con i dati ottenuti dalla chiamata API
         setScheduleData(scheduleRes.data);
-        setInfoData(infoRes.data);
+
       } catch (error) {
         console.error('Error fetching schedule data:', error);
       }
@@ -48,13 +50,12 @@ const SchedulingTable = () => {
 
   return (
     <div>
-      <ImageOpacity></ImageOpacity>
       <Navbar />
       <div className="flex flex-col items-center min-h-screen justify-center">
         <div className="flex justify-center space-x-10">
           <div className="flex items-start rounded-lg border mt-20 p-10 space-x-10">
             {/* Renderizza il componente Table solo se i dati sono disponibili */}
-            {scheduleData && infoData && <Table data={scheduleData} info={infoData} />}
+            {scheduleData && <Table data={scheduleData} info={infoData} />}
           </div>
         </div>
       </div>
