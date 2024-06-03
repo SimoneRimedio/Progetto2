@@ -41,6 +41,7 @@ const SchedulingTable = () => {
         // Aggiorna lo stato con i dati ottenuti dalla chiamata API
         setScheduleData(scheduleRes.data);
 
+        console.log(infoData);
       } catch (error) {
         console.error('Error fetching schedule data:', error);
       }
@@ -55,13 +56,10 @@ const SchedulingTable = () => {
       <div className="flex flex-col items-center min-h-screen justify-center">
         <div className="flex justify-center space-x-10">
           <div className="flex items-start rounded-lg border mt-20 p-10 space-x-10">
-            {/* Renderizza il componente Table solo se i dati sono disponibili */}
             {scheduleData && <Table data={scheduleData} info={infoData} />}
           </div>
-          {<Card info={infoData} />}
         </div>
       </div>
-
     </div>
   );
 };
