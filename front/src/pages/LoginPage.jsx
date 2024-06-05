@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = ({ onLogin }) => {
+const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -14,18 +14,29 @@ const LoginForm = ({ onLogin }) => {
         username,
         password,
       });
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        navigate("/admin");
+
+      if (response.data.message) {
+        // Navigate to AdminDashboard upon successful login
+        navigate("/AdminDashboard");
       } else {
-        console.error("Login failed.");
+        console.error("Login failed: ", response.data.message);
         alert("Credenziali di accesso non valide.");
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.error(error.response.data.error);
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        if (error.response.status === 401) {
+          console.error("Unauthorized: ", error.response.data.error);
+          alert("Credenziali di accesso non valide.");
+        } else {
+          console.error("Error response: ", error.response.data);
+        }
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error("No response received: ", error.request);
       } else {
-        console.error("An unexpected error occurred:", error);
+        // Something else caused the error
+        console.error("Error setting up request: ", error.message);
       }
     }
   };
@@ -53,4 +64,4 @@ const LoginForm = ({ onLogin }) => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;
