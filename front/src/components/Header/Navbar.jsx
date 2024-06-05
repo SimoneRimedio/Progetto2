@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { IconUser, IconUsersGroup, IconChalkboard, IconDoor, IconLogin2, IconSun, IconMenu2, IconX } from '@tabler/icons-react';
+import {
+  IconUser, IconUsersGroup, IconChalkboard, IconDoor,
+  IconLogin2, IconSun, IconMenu2, IconX
+} from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import Link from '../Link/Link';
@@ -34,17 +37,52 @@ const Logo = () => {
 const Input = () => {
   const navigate = useNavigate();
   const [currentSearchOption, setCurrentSearchOption] = useState(0);
+  const [searchingValue, setSearchingValue] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Aggiunto stato per gestire l'apertura e la chiusura del menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const dropDownMenuProps = {
-    button: { iconOpen: <IconMenu2 />, iconClose: <IconX /> },
+    button: { 
+      iconOpen: <IconMenu2 />, 
+      iconClose: <IconX />,
+    },
     optionsList: [
-      { icon: <IconUsersGroup />, text: 'Docenti', onClick: () => setCurrentSearchOption(0), className: currentSearchOption === 0 ? 'focus:bg-blue-500 text-white' : '' },
-      { icon: <IconChalkboard />, text: 'Classi', onClick: () => setCurrentSearchOption(1), className: currentSearchOption === 1 ? 'focus:bg-blue-500 text-white' : '' },
-      { icon: <IconDoor />, text: 'Aule', onClick: () => setCurrentSearchOption(2), className: currentSearchOption === 2 ? 'focus:bg-blue-500 text-white' : '' },
+      { 
+        icon: <IconUsersGroup />, 
+        text: 'Docenti', 
+        index: 0,
+        onClick: () => setCurrentSearchOption(0),
+        tabIndex: 0, // Imposta il tabIndex sugli elementi della lista delle opzioni
+        className: 'focus', // Aggiungi la classe focus per gestire gli stili del focus
+      },
+      { 
+        icon: <IconChalkboard />, 
+        text: 'Classi', 
+        index: 1,
+        onClick: () => setCurrentSearchOption(1),
+        tabIndex: 0, // Imposta il tabIndex sugli elementi della lista delle opzioni
+        className: 'focus', // Aggiungi la classe focus per gestire gli stili del focus
+      },
+      { 
+        icon: <IconDoor />, 
+        text: 'Aule', 
+        index: 2,
+        onClick: () => setCurrentSearchOption(2),
+        tabIndex: 0, // Imposta il tabIndex sugli elementi della lista delle opzioni
+        className: 'focus', // Aggiungi la classe focus per gestire gli stili del focus
+      },
     ]
   };
+
+  useEffect(() => {
+    const getAutocompleteOptions = async () => {
+      const autocompleteOptions = await useFetch({ url: `http://localhost:3000/searchFor=${dropDownMenuProps.optionsList[currentSearchOption].text}` });
+
+      setSearchingValue(autocompleteOptions.data);
+    };
+
+    getAutocompleteOptions();
+  }, [currentSearchOption]);
 
   const handleSearch = () => {
     const selectedOption = dropDownMenuProps.optionsList[currentSearchOption];
@@ -52,26 +90,25 @@ const Input = () => {
   };
 
   return (
-    <div className='flex items-center'>
+    <div className='relative flex items-center'>
       <input
         type="text"
         id="searchInput"
         placeholder="Search"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className='border p-2 rounded-l ml-2'
-        onClick={() => setIsMenuOpen(!isMenuOpen)} // Aggiunto un gestore di eventi per aprire e chiudere il menu
+        className='border p-2 rounded-l relative flex'
       />
-      <button onClick={handleSearch} className='bg-blue-500 text-white p-2 rounded-r'>
+      <button onClick={handleSearch} className='bg-blue-500 text-white p-2 rounded-r text-white-900 hover:text-grey-600'>
         Cerca
       </button>
-      {isMenuOpen && ( // Aggiunta condizione per mostrare il menu solo se isMenuOpen è true
+      <div className='ml-10 relative inset-0 flex justify-center items-center z-10'>
         <DropDownMenu
           btnProps={dropDownMenuProps.button}
           elements={dropDownMenuProps.optionsList}
-          className='absolute left-0 mt-10' // Applicato uno stile per posizionare il menu
+          className='bg-white border rounded shadow-md focus'
         />
-      )}
+      </div>
     </div>
   );
 };
@@ -81,11 +118,17 @@ const UserProps = () => {
     button: { iconOpen: <IconUser /> },
     optionsList: [
       { icon: <IconLogin2 />, text: 'Login', isLink: '/login' },
-      { icon: <IconSun />, text: 'Theme', extItem: <InpSwitch /> },
     ],
   };
 
-
+  return (
+    <DropDownMenu
+      btnProps={userAction.button}
+      elements={userAction.optionsList}
+      className='relative focus'
+    />
+  );
 };
 
 export default Navbar;
+      
