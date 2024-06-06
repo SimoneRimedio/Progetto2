@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import Admin from "./pages/Admindashboard";
 import HomePage from "./pages/Homepage";
 import Page404 from "./pages/Page404";
+import Table from "./pages/Table";
 import RequireAuth from "./components/Autenticate/RequireAuth";
 import { AuthProvider } from "./components/Autenticate/AuthContext";
 
@@ -14,6 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/table" element={<Table />} />
           <Route
             path="/admin"
             element={
