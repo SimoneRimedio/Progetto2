@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import AdminDashboard from "./pages/Admindashboard";
+import Admin from "./pages/Admindashboard";
 import HomePage from "./pages/Homepage";
 import Page404 from "./pages/Page404";
 import RequireAuth from "./components/Autenticate/RequireAuth";
@@ -27,10 +27,6 @@ const App = () => {
       </BrowserRouter>
     </AuthProvider>
   );
-};
-
-const RequireAuth = () => {
-  return <Navigate to="/login" replace />;
 };
 
 export default App;
