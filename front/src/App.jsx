@@ -4,26 +4,28 @@ import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/Admindashboard";
 import HomePage from "./pages/Homepage";
 import Page404 from "./pages/Page404";
-import Table from "./pages/Table";
+import RequireAuth from "./components/Autenticate/RequireAuth";
+import { AuthProvider } from "./components/Autenticate/AuthContext";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/table" element={<Table />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/admin"
-          element={
-            <RequireAuth>
-              <AdminDashboard />
-            </RequireAuth>
-          }
-        />
-        <Route path="*" element={<Page404 />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth>
+                <Admin />
+              </RequireAuth>
+            }
+          />
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
