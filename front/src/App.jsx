@@ -4,12 +4,14 @@ import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/Admindashboard";
 import HomePage from "./pages/Homepage";
 import Page404 from "./pages/Page404";
+import Table from "./pages/Table";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/table" element={<Table />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/admin"
